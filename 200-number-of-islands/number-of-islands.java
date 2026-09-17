@@ -19,12 +19,37 @@ class Solution {
             for (int j = 0; j < n; j++) {
                 if (grid[i][j] == '1' && !visit[i][j]) {
                     count++;
-                    bfs(i, j, grid, visit);
+                    // bfs(i, j, grid, visit);
+                    dfs(i, j, grid, visit);
                 }
             }
         }
         return count;
     }
+
+    private void dfs(int i, int j, char[][] grid, boolean[][] visit) {
+    int m = grid.length;
+    int n = grid[0].length;
+
+    visit[i][j] = true;
+
+    // Up: check i > 0 (not i >= 0)
+    if (i > 0 && grid[i - 1][j] == '1' && !visit[i - 1][j]) {
+        dfs(i - 1, j, grid, visit);
+    }
+    // Down: check i < m - 1
+    if (i < m - 1 && grid[i + 1][j] == '1' && !visit[i + 1][j]) {
+        dfs(i + 1, j, grid, visit);
+    }
+    // Left: check j > 0
+    if (j > 0 && grid[i][j - 1] == '1' && !visit[i][j - 1]) {
+        dfs(i, j - 1, grid, visit);
+    }
+    // Right: check j < n - 1
+    if (j < n - 1 && grid[i][j + 1] == '1' && !visit[i][j + 1]) {
+        dfs(i, j + 1, grid, visit);
+    }
+}
 
     private void bfs(int row, int col, char[][] grid, boolean[][] visit) {
         int m = grid.length, n = grid[0].length;
