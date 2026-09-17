@@ -15,11 +15,19 @@ class Solution {
         }
     }
 
+    private void dfs(int start, List<List<Integer>> rooms, boolean[] visit) {
+        visit[start] = true;
+        for(int ele : rooms.get(start)) {
+            if(!visit[ele]) dfs(ele, rooms , visit);
+        }
+    }
+
     public boolean canVisitAllRooms(List<List<Integer>> rooms) {
         int n = rooms.size();
         boolean[] visit = new boolean[n];
         
-        bfs(0, rooms, visit, n);
+        // bfs(0, rooms, visit, n);
+        dfs(0, rooms, visit);
         
         for (boolean ele : visit) {
             if (!ele) return false;
