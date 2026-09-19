@@ -2,13 +2,25 @@ class Solution {
     public int minDepth(TreeNode root) {
         if (root == null) return 0;
         
-        // Agar left child null hai, toh right subtree ki depth check karo
-        if (root.left == null) return 1 + minDepth(root.right);
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
+        int depth = 1;
         
-        // Agar right child null hai, toh left subtree ki depth check karo
-        if (root.right == null) return 1 + minDepth(root.left);
-        
-        // Agar dono children hain, tabhi minimum depth lo
-        return 1 + Math.min(minDepth(root.left), minDepth(root.right));
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                
+                // Pehla leaf node milte hi depth return kardo
+                if (node.left == null && node.right == null) {
+                    return depth;
+                }
+                
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+            depth++;
+        }
+        return depth;
     }
 }
