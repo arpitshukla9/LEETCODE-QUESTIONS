@@ -1,30 +1,28 @@
 class Solution {
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        if (list1 == null || list2 == null) {
-            return list1 == null ? list2 : list1;
+    ListNode MergeTwoList(ListNode list1, ListNode list2) {
+        if(list1 == null) return list2;
+        if(list2 == null) return list1;
+
+        if(list1.val <= list2.val) {
+            list1.next = MergeTwoList(list1.next, list2);
+            return list1;
+        } else {
+            list2.next = MergeTwoList(list1, list2.next);
+            return list2;
         }
-        if (list1.val > list2.val) {
-            ListNode temp = list1;
-            list1 = list2;
-            list2 = temp;
-        }
-        list1.next = mergeTwoLists(list1.next, list2);
-        return list1;
     }
 
-    public ListNode mergeKLists(ListNode[] lists) {
-        if (lists == null || lists.length == 0) return null;
-        return mergeKListsRange(lists, 0, lists.length - 1);
-    }
-
-    private ListNode mergeKListsRange(ListNode[] lists, int start, int end) {
-        if (start == end) return lists[start];
-        if (start > end) return null;
-
+    ListNode PartitionAndMerge(int start, int end, ListNode[] list){
+        if(start > end) return null;
+        if(start == end) return list[start];
         int mid = start + (end - start) / 2;
-        ListNode left = mergeKListsRange(lists, start, mid);
-        ListNode right = mergeKListsRange(lists, mid + 1, end);
+        ListNode list1 = PartitionAndMerge(start, mid , list);
+        ListNode list2 = PartitionAndMerge(mid+1, end,  list);
 
-        return mergeTwoLists(left, right);
+        return MergeTwoList(list1, list2);
+    }
+    public ListNode mergeKLists(ListNode[] lists) {
+        if(lists.length == 0 || lists == null) return null;
+        return PartitionAndMerge(0, lists.length - 1, lists);
     }
 }
