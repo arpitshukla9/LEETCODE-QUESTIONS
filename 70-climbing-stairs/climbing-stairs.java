@@ -24,6 +24,7 @@ class Solution {
         memo[n] = solvebyMemo(n - 1, memo) + solvebyMemo(n - 2, memo);
         return memo[n];
     }
+    
     // tabulation
     int solvebyTab(int n , int[] tab){
         if(n == 1 || n == 2 || n ==3) return n;
